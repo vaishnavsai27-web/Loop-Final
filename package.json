@@ -1,0 +1,47 @@
+{
+  "name": "loop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LOOP \u2014 tell it how you feel, and it finds music from its own catalogue",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c magenta,cyan \"npm run dev --workspace backend\" \"npm run dev --workspace frontend\"",
+    "build": "npm run build --workspace frontend",
+    "start": "npm run start --workspace backend",
+    "lint": "eslint .",
+    "test": "npm test --workspace backend",
+    "test:unit": "npm run test:unit --workspace backend",
+    "test:web": "npm test --workspace frontend",
+    "test:sql": "npm run test:sql --workspace backend",
+    "test:e2e": "python3 -m pytest e2e -q",
+    "check": "npm run lint && npm run test:web && npm run test && npm run test:sql && npm run build && npm run ui:audit && npm run deploy:check",
+    "db:setup": "npm run db:setup --workspace backend --",
+    "db:migrate": "npm run db:migrate --workspace backend",
+    "db:status": "npm run db:status --workspace backend",
+    "db:verify": "npm run db:verify --workspace backend",
+    "db:seed:generate": "npm run seed:generate --workspace backend",
+    "db:backup": "node scripts/mysql-backup.js",
+    "db:restore:drill": "node scripts/mysql-restore-drill.js",
+    "admin:provision": "npm run admin:provision --workspace backend --",
+    "artist:scan": "npm run artist:scan --workspace backend --",
+    "ui:audit": "node scripts/ui-release-audit.js",
+    "deploy:check": "node scripts/deployment-preflight.js",
+    "deploy:smoke": "node scripts/vercel-smoke-test.js",
+    "check:seed": "node scripts/check-seed-provenance.js"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "axe-core": "^4.14.0",
+    "concurrently": "^10.0.6",
+    "eslint": "^9.39.5",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^17.13.0"
+  },
+  "engines": {
+    "node": "26.x"
+  }
+}
